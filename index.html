@@ -1,0 +1,786 @@
+<title>芒果之神</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 單欄閱讀寬度，首頁依產季狀態切換第一屏；#order 為獨立訂購流程 */
+:root{
+  --bg:#FCFAF7; --surface:#F4ECE3; --card:#FFFFFF; --fg:#2B211A; --muted:#76675B; --line:#E5D8CA;
+  --accent:#C2652A; --btn:#A9531E; --btn-hover:#8F4517; --on-btn:#FFFFFF; --accent-soft:#F7E6D6;
+  --leaf:#4F6B3A; --warn:#A3361F; --warn-soft:#F8E1DA;
+  --display:"LXGW WenKai TC","Noto Serif TC",serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181411; --surface:#221C17; --card:#29211B; --fg:#F2E9E0; --muted:#B3A395; --line:#3B3129;
+  --accent:#E38C52; --btn:#D9793C; --btn-hover:#E8925A; --on-btn:#1A110A; --accent-soft:#3A2618;
+  --leaf:#93B27B; --warn:#F09A84; --warn-soft:#3D221B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#181411; --surface:#221C17; --card:#29211B; --fg:#F2E9E0; --muted:#B3A395; --line:#3B3129;
+  --accent:#E38C52; --btn:#D9793C; --btn-hover:#E8925A; --on-btn:#1A110A; --accent-soft:#3A2618;
+  --leaf:#93B27B; --warn:#F09A84; --warn-soft:#3D221B; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.75}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.narrow{max-width:720px}
+
+/* demo bar */
+.demo{background:var(--surface);border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.demo .wrap{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding-block:8px}
+.demo button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:2px 12px;cursor:pointer;font-size:13px}
+.demo button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+
+/* header */
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;gap:16px;padding-block:10px}
+.brand{margin-right:auto;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg);font-family:var(--display);font-size:22px;font-weight:700;white-space:nowrap}
+.brand .mark{width:22px;height:28px;background:var(--accent);border-radius:58% 42% 50% 50%/62% 60% 40% 38%;transform:rotate(-18deg)}
+nav.main{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.main a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap;font-size:15px}
+nav.main a:hover{color:var(--fg);background:var(--surface)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:8px;background:var(--btn);color:var(--on-btn);padding:11px 22px;font-weight:700;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--btn-hover)}
+.btn.sm{padding:7px 14px;font-size:15px}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--surface)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+@media (max-width:760px){nav.main{display:none}}
+
+/* hero */
+.hero{padding-block:56px 48px}
+.hero .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.06em}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.hero h1{font-size:clamp(34px,6vw,54px);margin-top:12px}
+.hero .lede{margin-top:16px;font-size:18px;color:var(--muted);max-width:30em}
+.hero .actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.notify{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;max-width:460px}
+.notify input{flex:1 1 220px;min-width:0}
+.small{font-size:14px;color:var(--muted)}
+
+/* season timeline card */
+.season{background:var(--surface);border-radius:14px;padding:24px}
+.season h2{font-size:18px}
+.season ol{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:0}
+.season li{display:grid;grid-template-columns:20px 1fr;gap:12px;position:relative;padding-bottom:18px}
+.season li:last-child{padding-bottom:0}
+.season li::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--line);background:var(--surface);margin-top:7px;margin-left:4px;z-index:1}
+.season li:not(:last-child)::after{content:"";position:absolute;left:9px;top:20px;bottom:-2px;width:2px;background:var(--line)}
+.season li.done::before{background:var(--muted);border-color:var(--muted)}
+.season li.now::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.season .when{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.season .what{font-weight:500}
+.season li.now .what{color:var(--accent);font-weight:700}
+@media (max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero{padding-block:36px}}
+
+/* sections */
+section.block{padding-block:56px;border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin-bottom:28px}
+.sec-head h2{font-size:clamp(26px,4vw,34px)}
+.sec-head p{color:var(--muted)}
+
+/* varieties */
+.varieties{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.variety{display:flex;flex-direction:column;gap:12px;min-width:0}
+.fruit{height:120px;border-radius:var(--r);background:var(--surface);display:flex;align-items:center;justify-content:center}
+.fruit i{display:block;border-radius:58% 42% 50% 50%/62% 60% 40% 38%;transform:rotate(-24deg)}
+.fruit.aiwen i{width:62px;height:76px;background:radial-gradient(circle at 70% 25%,#B8323A 0 30%,#D8642F 60%,#E7A23A)}
+.fruit.jinhuang i{width:56px;height:96px;background:radial-gradient(circle at 70% 20%,#C9B23C,#8FA43A 70%);border-radius:50% 50% 46% 54%/70% 66% 34% 30%}
+.fruit.xishi i{width:60px;height:80px;background:radial-gradient(circle at 70% 25%,#E58C7A 0 25%,#E8B44A 60%,#D9C25A)}
+.variety h3{font-size:24px}
+.variety .alias{font-size:14px;color:var(--muted)}
+.variety dl{margin:0;display:grid;gap:8px}
+.variety dt{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.04em}
+.variety dd{margin:0;font-size:15px}
+@media (max-width:860px){.varieties{grid-template-columns:1fr}.variety{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:start}.fruit{height:110px}}
+
+/* how */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+.how li{list-style:none;counter-increment:s;padding:20px;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.how li::before{content:counter(s);display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;align-items:center;justify-content:center;margin-bottom:10px}
+.how h3{font-size:19px;margin-bottom:6px}
+.how p{font-size:15px;color:var(--muted)}
+.how-wrap{margin:0;padding:0}
+.note{margin-top:20px;padding:14px 18px;border-radius:var(--r);background:var(--accent-soft);font-size:15px}
+@media (max-width:760px){.how{grid-template-columns:1fr}}
+
+/* origin */
+.origin{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.origin .facts{display:grid;gap:14px;margin:0}
+.origin .facts div{display:grid;grid-template-columns:88px 1fr;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.origin dt{font-size:14px;color:var(--muted)}
+.origin dd{margin:0;font-weight:500}
+.origin .text{display:grid;gap:14px}
+@media (max-width:760px){.origin{grid-template-columns:1fr}}
+
+/* articles */
+.articles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.article{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:var(--r);background:var(--surface);text-decoration:none;color:var(--fg);min-width:0}
+.article:hover h3{color:var(--accent)}
+.article .tag{font-size:13px;color:var(--muted)}
+.article h3{font-size:20px}
+.article p{font-size:15px;color:var(--muted)}
+.article .num{font-family:var(--display);font-size:28px;color:var(--accent);line-height:1}
+@media (max-width:860px){.articles{grid-template-columns:1fr}}
+
+/* faq */
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;padding:16px 0;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--accent);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq summary::-webkit-details-marker{display:none}
+.faq details p{padding-bottom:16px;color:var(--muted);max-width:40em}
+
+/* contact / footer */
+.contact{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between}
+.idbox{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);font-weight:700}
+footer{padding-block:28px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+
+/* ---------- order view ---------- */
+.order{padding-block:36px 72px}
+.steps{display:flex;gap:8px;list-style:none;padding:0;margin:0 0 28px;flex-wrap:wrap}
+.steps li{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.steps li span{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+.steps li.on{color:var(--fg);font-weight:700}
+.steps li.on span{background:var(--btn);border-color:var(--btn);color:var(--on-btn)}
+.steps li.done span{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent)}
+.steps li+li::before{content:"";width:20px;height:1px;background:var(--line)}
+.order h1{font-size:clamp(28px,5vw,38px);margin-bottom:8px}
+.panel{margin-top:24px;display:grid;gap:18px}
+.field{display:grid;gap:6px;min-width:0}
+.field label,.legend{font-size:14px;font-weight:700}
+.field .hint{font-size:13px;color:var(--muted);font-weight:400}
+.req{color:var(--accent)}
+input[type=text],input[type=tel],input[type=email],select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row-addr{display:grid;grid-template-columns:150px 1fr;gap:14px}
+@media (max-width:560px){.row2,.row-addr{grid-template-columns:1fr}}
+.err{font-size:13px;color:var(--warn)}
+.invalid{border-color:var(--warn)!important}
+
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{position:relative;display:block;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);cursor:pointer}
+.mode input{position:absolute;opacity:0}
+.mode b{display:block}
+.mode small{color:var(--muted)}
+.mode:has(input:checked){border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--accent-soft)}
+.mode:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:560px){.modes{grid-template-columns:1fr}}
+
+.rcpt{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px;display:grid;gap:14px}
+.rcpt-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.rcpt-head h3{font-size:19px}
+.linkbtn{background:none;border:0;color:var(--warn);cursor:pointer;font-size:14px;padding:4px}
+.items{display:grid;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.item{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 12px;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item .nm{font-weight:500}
+.item .pr{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.stepper button{width:36px;height:36px;border:0;background:var(--surface);cursor:pointer;font-size:18px}
+.stepper button:disabled{opacity:.35;cursor:not-allowed}
+.stepper output{width:36px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700}
+.boxbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:14px;padding:10px 14px;border-radius:8px;background:var(--surface)}
+.boxbar b{font-variant-numeric:tabular-nums}
+.boxbar.full{background:var(--accent-soft)}
+
+.sum{border-radius:12px;background:var(--surface);padding:18px;display:grid;gap:8px;font-variant-numeric:tabular-nums}
+.sum .ln{display:flex;justify-content:space-between;gap:12px}
+.sum .ln.total{border-top:1px solid var(--line);padding-top:10px;margin-top:4px;font-weight:700;font-size:18px}
+.sum .muted{color:var(--muted);font-size:14px}
+.tag-demo{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;vertical-align:2px;margin-left:6px}
+
+.navrow{display:flex;justify-content:space-between;gap:12px;margin-top:28px;flex-wrap:wrap}
+.review{display:grid;gap:14px}
+.review .card{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--card);display:grid;gap:6px}
+.review .card h3{font-size:17px;display:flex;justify-content:space-between;gap:8px}
+.review .card h3 button{font-family:var(--body);font-size:14px;font-weight:400;background:none;border:0;color:var(--accent);cursor:pointer}
+.kv{display:grid;grid-template-columns:84px 1fr;gap:4px 12px;font-size:15px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.alert{padding:14px 16px;border-radius:10px;background:var(--warn-soft);color:var(--fg);display:grid;gap:10px;font-size:15px}
+.alert .acts{display:flex;gap:10px;flex-wrap:wrap}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.check input{margin-top:6px;accent-color:var(--btn)}
+.done-box{text-align:left;display:grid;gap:16px}
+.orderno{font-family:var(--display);font-size:30px;color:var(--accent);font-variant-numeric:tabular-nums}
+.closed{padding:28px;border-radius:12px;background:var(--surface);display:grid;gap:12px}
+.hp{position:absolute;left:-9999px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+</style>
+
+<div class="demo" id="demoBar">
+  <div class="wrap">
+    <span>示範用｜切換網站狀態：</span>
+    <button type="button" data-state="offseason">非產季</button>
+    <button type="button" data-state="preorder">預購中</button>
+    <button type="button" data-state="shipping">出貨中</button>
+    <button type="button" data-state="full">額滿</button>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span>芒果之神</a>
+    <nav class="main" aria-label="主選單">
+      <a href="#varieties">品種</a>
+      <a href="#how">怎麼買</a>
+      <a href="#origin">產地</a>
+      <a href="#articles">文章</a>
+      <a href="#faq">常見問題</a>
+    </nav>
+    <a class="btn sm" id="headerCta" href="#order">我要預購</a>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<main id="home">
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div id="heroText"></div>
+      <aside class="season" aria-labelledby="seasonTitle">
+        <h2 id="seasonTitle">2027 產季時程</h2>
+        <ol id="seasonList"></ol>
+      </aside>
+    </div>
+  </section>
+
+  <section class="block" id="varieties">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>三種芒果</h2>
+        <p>收到後怎麼放，每一種不一樣。</p>
+      </div>
+      <div class="varieties">
+        <article class="variety">
+          <div class="fruit aiwen" aria-hidden="true"><i></i></div>
+          <div>
+            <h3>愛文</h3>
+            <p class="alias">外號「盛夏的紅寶石」，出自鄭罕池的鄉土教育繪本</p>
+            <dl style="margin-top:12px">
+              <div><dt>收到時</dt><dd>可以直接開箱吃，口感較硬、微酸。</dd></div>
+              <div><dt>最好吃</dt><dd>放 2～3 天，果皮泛油光之後。</dd></div>
+              <div><dt>規格</dt><dd>一般裝、15 顆裝</dd></div>
+            </dl>
+          </div>
+        </article>
+        <article class="variety">
+          <div class="fruit jinhuang" aria-hidden="true"><i></i></div>
+          <div>
+            <h3>金煌</h3>
+            <p class="alias">果形長、單顆大</p>
+            <dl style="margin-top:12px">
+              <div><dt>收到時</dt><dd>先放室溫催熟，不要馬上放冰箱。</dd></div>
+              <div><dt>最好吃</dt><dd>3～5 天後摸起來微軟、聞得到果香，再冰。</dd></div>
+              <div><dt>規格</dt><dd>一般裝</dd></div>
+            </dl>
+          </div>
+        </article>
+        <article class="variety">
+          <div class="fruit xishi" aria-hidden="true"><i></i></div>
+          <div>
+            <h3>西施</h3>
+            <p class="alias">熟成時果皮轉黃、透出粉紅</p>
+            <dl style="margin-top:12px">
+              <div><dt>收到時</dt><dd>室溫放置 1～3 天。</dd></div>
+              <div><dt>最好吃</dt><dd>表面油亮、果蒂聞到濃郁果香時。</dd></div>
+              <div><dt>規格</dt><dd>一般裝</dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>怎麼買</h2>
+        <p>先登記，出貨前才付款。</p>
+      </div>
+      <ol class="how how-wrap">
+        <li><h3>網站預購登記</h3><p>選品種與箱數、填收件資料。送出後會收到預購確認信，這時不用付款。</p></li>
+        <li><h3>出貨前通知匯款</h3><p>芒果準備寄出的前一天，我們會寄匯款通知給您，附上金額與帳號。</p></li>
+        <li><h3>確認匯款後寄出</h3><p>收到款項後由郵局寄出，同時附上這一批芒果的保存方式。</p></li>
+      </ol>
+      <p class="note">為什麼不先收款？芒果的產量跟天氣有關，等量確定、可以寄了再收，比較不會發生收了錢卻寄不出來的事。也因為怕退件時芒果壞在路上，我們不做貨到付款。</p>
+    </div>
+  </section>
+
+  <section class="block" id="origin">
+    <div class="wrap origin">
+      <div>
+        <div class="sec-head" style="margin-bottom:16px"><h2>玉井人的芒果，種在楠西</h2></div>
+        <div class="text">
+          <p>家在玉井，果園在隔壁的楠西。兩地同屬白堊土地區。</p>
+          <p>所以我們寫「玉井人的芒果」，產地標楠西，不寫成玉井芒果。</p>
+          <p>網路訂單從接單、回覆到寄出，都是我自己處理。</p>
+        </div>
+      </div>
+      <dl class="facts">
+        <div><dt>產地</dt><dd>台南市楠西區</dd></div>
+        <div><dt>土壤</dt><dd>白堊土地區</dd></div>
+        <div><dt>品種</dt><dd>愛文、金煌、西施</dd></div>
+        <div><dt>出貨</dt><dd>中華郵政寄送，每件最多 2 箱</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="block" id="articles">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>文章</h2>
+        <p>關於芒果的事，查證過才寫。<span class="tag-demo">示意</span></p>
+      </div>
+      <div class="articles">
+        <a class="article" href="#articles">
+          <span class="tag">歷史｜撰寫中</span>
+          <h3>芒果的原鄉在印度</h3>
+          <p>從化石、字源，到阿克巴皇帝那座十萬棵樹的果園。</p>
+        </a>
+        <a class="article" href="#articles">
+          <span class="num">46.5°C</span>
+          <span class="tag">處理技術</span>
+          <h3>外銷芒果要先蒸過</h3>
+          <p>果心 46.5°C、維持 30 分鐘，純物理處理。這個溫度剛好殺得死東方果實蠅的蟲卵，又不傷果肉。</p>
+        </a>
+        <a class="article" href="#articles">
+          <span class="num">4 公噸</span>
+          <span class="tag">外銷</span>
+          <h3>愛文第一次上架法國</h3>
+          <p>2026 年 6 月，第一批台灣愛文空運落地巴黎近郊的 Rungis 市場。</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="wrap narrow faq">
+      <div class="sec-head"><h2>常見問題</h2></div>
+      <details><summary>一個人最多可以訂幾箱？</summary><p>每筆預購最多 3 箱，可以分寄到不同地址。</p></details>
+      <details><summary>可以寄給別人，或跟朋友合購分開寄嗎？</summary><p>可以。訂購時選「不同地址（送禮用、合購）」，每個收件人分別填地址和箱數。</p></details>
+      <details><summary>什麼時候付款？</summary><p>寄出前一天我們會寄匯款通知，收到款項後安排寄出。預購當下不用付款。</p></details>
+      <details><summary>可以貨到付款嗎？</summary><p>不行。芒果放不久，被退件時會壞在運送途中。</p></details>
+      <details><summary>運費怎麼算？</summary><p>郵局每件包裹最多裝 2 箱。運費計算方式確定後會寫在這裡。</p></details>
+      <details><summary>可以指定到貨日嗎？</summary><p>沒辦法指定日期。可以填寫方便收貨的星期與時段，我們會寫在包裹備註上。</p></details>
+      <details><summary>收到的芒果有壓傷或壞掉怎麼辦？</summary><p>請在收到當天拍照，傳到 LINE 給我們，我們會一筆一筆處理。</p></details>
+      <details><summary>宅急便可以嗎？</summary><p>網站訂單一律走郵局寄送。</p></details>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap contact">
+      <div>
+        <h2 style="font-size:28px">有問題，直接問</h2>
+        <p class="small" style="margin-top:6px">加 LINE 好友，訂單、出貨、保存方式都可以問。</p>
+      </div>
+      <div class="idbox">LINE ID：<span id="lineId">@mangogod（待補）</span>
+        <button class="btn sm ghost" type="button" id="copyLine">複製</button></div>
+    </div>
+  </section>
+
+  <footer><div class="wrap">芒果之神｜台南楠西</div></footer>
+</main>
+
+<!-- ================= ORDER ================= -->
+<main id="order" class="order" hidden>
+  <div class="wrap narrow" id="orderRoot"></div>
+</main>
+
+<script>
+/* ===== 設定 ===== */
+const CONFIG = {
+  API_URL: "https://script.google.com/macros/s/AKfycbzaXt8GMUX6PdAhAAxm_DTPEAQGKMFMeRofRoiJnsZPea_8415OhrPfJziT01kNee98Pw/exec",          // 部署 Apps Script 後，把網址貼在這裡；空白 = 示範模式
+  MAX_BOXES: 3,         // 每筆預購上限
+  DISCOUNT_PER_BOX: 50, // 預購每箱折扣
+  BOXES_PER_PACKAGE: 2, // 郵局每件最多 2 箱
+  SHOW_DEMO_BAR: false
+};
+const PRODUCTS = [      // 價格為示意，正式上線前改
+  { id:"aiwen",    name:"愛文",       label:"愛文",         price:1000 },
+  { id:"aiwen15",  name:"愛文15顆裝", label:"愛文 15 顆裝", price:1100 },
+  { id:"jinhuang", name:"金煌",       label:"金煌",         price:900 },
+  { id:"xishi",    name:"西施",       label:"西施",         price:900 }
+];
+const COUNTIES = ["臺北市","新北市","基隆市","桃園市","新竹市","新竹縣","苗栗縣","臺中市","彰化縣","南投縣","雲林縣","嘉義市","嘉義縣","臺南市","高雄市","屏東縣","宜蘭縣","花蓮縣","臺東縣","澎湖縣","金門縣","連江縣"];
+const WHEN = ["不限","僅平日","僅週末","平日上午","平日下午"];
+
+/* ===== 產季狀態 ===== */
+const STATES = {
+  offseason:{ eyebrow:"2026 產季已結束", now:0,
+    lede:"下一季約 5 月底開放預購。留下 Email，開放當天通知您。", cta:null, header:"開賣通知" },
+  preorder:{ eyebrow:"2027 預購開放中", now:1,
+    lede:"先登記，出貨前才付款。每筆最多 3 箱，可分寄不同地址。", cta:"我要預購", header:"我要預購" },
+  shipping:{ eyebrow:"陸續出貨中", now:2,
+    lede:"已預購的訂單依序寄出，寄出前一天會通知匯款。預購仍在開放中的話，下方按鈕可以登記。", cta:"我要預購", header:"我要預購" },
+  full:{ eyebrow:"今年預購已額滿", now:2,
+    lede:"謝謝大家。留下 Email，明年開放預購時通知您。", cta:null, header:"開賣通知" }
+};
+const TIMELINE = [
+  { when:"現在", what:"非產季，接受開賣通知登記" },
+  { when:"約 5 月底", what:"開放預購" },
+  { when:"6 月起", what:"陸續出貨，寄出前一天通知匯款" },
+  { when:"售完為止", what:"下一季開賣通知" }
+];
+let season = "offseason";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = n => "$" + n.toLocaleString("en-US");
+
+function renderHero(){
+  const s = STATES[season];
+  const open = !!s.cta;
+  $("#heroText").innerHTML = `
+    <span class="eyebrow"><span class="dot"></span>${s.eyebrow}</span>
+    <h1>楠西的愛文、金煌、西施</h1>
+    <p class="lede">${s.lede}</p>
+    ${open ? `<div class="actions"><a class="btn" href="#order">${s.cta}</a><a class="btn ghost" href="#how">怎麼買</a></div>`
+           : `<form class="notify" id="notifyForm" novalidate>
+                <input type="email" id="notifyEmail" placeholder="您的 Email" aria-label="Email" autocomplete="email">
+                <input type="text" class="hp" id="notifyHp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <button class="btn" type="submit">開賣通知我</button>
+                <p class="small" id="notifyMsg" style="flex-basis:100%">只用來寄開賣通知。</p>
+              </form>`}`;
+  $("#seasonList").innerHTML = TIMELINE.map((t,i)=>{
+    const cls = i < s.now ? "done" : i === s.now ? "now" : "";
+    return `<li class="${cls}"><div><div class="when">${t.when}</div><div class="what">${t.what}</div></div></li>`;
+  }).join("");
+  const hc = $("#headerCta");
+  hc.textContent = s.header;
+  hc.href = open ? "#order" : "#top";
+  document.querySelectorAll("#demoBar button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.state===season));
+  const f = $("#notifyForm");
+  if (f) f.addEventListener("submit", onNotify);
+}
+
+async function onNotify(e){
+  e.preventDefault();
+  const email = $("#notifyEmail").value.trim(), msg = $("#notifyMsg");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = "Email 格式不對，請再檢查一次。"; msg.style.color="var(--warn)"; return; }
+  msg.style.color = "";
+  if ($("#notifyHp").value) return;
+  const res = await api({ action:"notify", email });
+  msg.textContent = res.ok ? "已登記，開放預購時會寄信通知您。" : (res.message || "登記沒有成功，請稍後再試。");
+  if (res.ok) $("#notifyEmail").value = "";
+}
+
+/* ===== 後端 ===== */
+const demoPhones = new Set();
+let demoSeq = 1;
+async function api(payload){
+  if (!CONFIG.API_URL) {
+    await new Promise(r=>setTimeout(r,500));
+    if (payload.action === "order") {
+      const ph = payload.buyer.phone.replace(/\D/g,"");
+      if (!payload.confirmDuplicate && demoPhones.has(ph)) return { ok:false, status:"duplicate" };
+      demoPhones.add(ph);
+      return { ok:true, orderId:"MG270601-" + String(demoSeq++).padStart(3,"0"), demo:true };
+    }
+    return { ok:true, demo:true };
+  }
+  try {
+    const r = await fetch(CONFIG.API_URL, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+    return await r.json();
+  } catch (err) {
+    return { ok:false, message:"連線失敗，請檢查網路後再送一次。" };
+  }
+}
+async function loadSeason(){
+  if (!CONFIG.API_URL) return;
+  try { const r = await fetch(CONFIG.API_URL + "?action=status"); const j = await r.json(); if (STATES[j.season]) { season = j.season; renderHero(); route(); } } catch(e){}
+}
+
+/* ===== 訂購流程 ===== */
+const emptyItems = () => Object.fromEntries(PRODUCTS.map(p=>[p.id,0]));
+const newRcpt = () => ({ name:"", phone:"", county:"", addr:"", when:"不限", items: emptyItems() });
+let O, step, errors, busy, dupWarn, result;
+function resetOrder(){
+  O = { buyer:{ name:"", phone:"", email:"", line:"" }, mode:"self", rcpts:[newRcpt()], agree:false, hp:"" };
+  step = 1; errors = {}; busy = false; dupWarn = false; result = null;
+}
+resetOrder();
+
+const boxesOf = r => PRODUCTS.reduce((s,p)=>s + r.items[p.id], 0);
+const totalBoxes = () => O.rcpts.reduce((s,r)=>s + boxesOf(r), 0);
+const itemStr = r => PRODUCTS.filter(p=>r.items[p.id]>0).map(p=>p.name + r.items[p.id]).join("");
+const itemLabel = r => PRODUCTS.filter(p=>r.items[p.id]>0).map(p=>`${p.label} × ${r.items[p.id]}`).join("、");
+function totals(){
+  const boxes = totalBoxes();
+  const subtotal = O.rcpts.reduce((s,r)=>s + PRODUCTS.reduce((t,p)=>t + p.price*r.items[p.id],0),0);
+  const discount = boxes * CONFIG.DISCOUNT_PER_BOX;
+  const packages = O.rcpts.reduce((s,r)=>s + Math.ceil(boxesOf(r)/CONFIG.BOXES_PER_PACKAGE),0);
+  return { boxes, subtotal, discount, pay: subtotal - discount, packages };
+}
+function syncSelf(){
+  if (O.mode === "self") { O.rcpts[0].name = O.buyer.name; O.rcpts[0].phone = O.buyer.phone; }
+}
+
+function stepsBar(){
+  const names = ["訂購人","收件與品項","確認送出"];
+  return `<ol class="steps">${names.map((n,i)=>{
+    const k=i+1, cls = k===step?"on":k<step?"done":"";
+    return `<li class="${cls}"><span>${k<step?"✓":k}</span>${n}</li>`;}).join("")}</ol>`;
+}
+const errMsg = k => errors[k] ? `<span class="err" id="e-${k}">${errors[k]}</span>` : "";
+const inv = k => errors[k] ? ` class="invalid" aria-invalid="true" aria-describedby="e-${k}"` : "";
+
+function renderOrder(){
+  const root = $("#orderRoot");
+  if (!STATES[season].cta) {
+    root.innerHTML = `<div class="closed"><h1>目前沒有開放預購</h1><p>${STATES[season].lede}</p><div><a class="btn" href="#top">回首頁</a></div></div>`;
+    return;
+  }
+  if (result) { root.innerHTML = renderDone(); return; }
+  root.innerHTML = stepsBar() + (step===1 ? renderStep1() : step===2 ? renderStep2() : renderStep3());
+}
+
+function renderStep1(){
+  const b = O.buyer;
+  return `<h1>訂購人資料</h1>
+  <p class="small">匯款通知會寄到這裡。預購當下不用付款。</p>
+  <div class="panel">
+    <div class="row2">
+      <div class="field"><label for="b-name">姓名 <span class="req">*</span></label>
+        <input type="text" id="b-name" data-b="name" value="${esc(b.name)}" autocomplete="name"${inv("b-name")}>${errMsg("b-name")}</div>
+      <div class="field"><label for="b-phone">手機 <span class="req">*</span></label>
+        <input type="tel" id="b-phone" data-b="phone" value="${esc(b.phone)}" autocomplete="tel" placeholder="0912345678"${inv("b-phone")}>${errMsg("b-phone")}</div>
+    </div>
+    <div class="field"><label for="b-email">Email <span class="hint">用來寄預購確認信與匯款通知</span></label>
+      <input type="email" id="b-email" data-b="email" value="${esc(b.email)}" autocomplete="email"${inv("b-email")}>${errMsg("b-email")}</div>
+    <div class="field"><label for="b-line">LINE ID <span class="hint">選填，Email 和 LINE 至少填一個</span></label>
+      <input type="text" id="b-line" data-b="line" value="${esc(b.line)}"${inv("b-line")}>${errMsg("b-line")}</div>
+  </div>
+  <div class="navrow"><a class="btn ghost" href="#top">回首頁</a><button class="btn" type="button" data-act="next">下一步</button></div>`;
+}
+
+function renderRcpt(r, i){
+  const self = O.mode === "self";
+  const left = CONFIG.MAX_BOXES - totalBoxes();
+  const id = k => `r${i}-${k}`;
+  return `<div class="rcpt">
+    <div class="rcpt-head"><h3>${self ? "寄給訂購人" : "收件人 " + (i+1)}</h3>
+      ${!self && O.rcpts.length>1 ? `<button class="linkbtn" type="button" data-act="del" data-i="${i}">移除</button>` : ""}</div>
+    ${self ? `<p class="small">${esc(O.buyer.name)}｜${esc(O.buyer.phone)}</p>` : `
+    <div class="row2">
+      <div class="field"><label for="${id("name")}">收件人姓名 <span class="req">*</span></label>
+        <input type="text" id="${id("name")}" data-r="${i}" data-k="name" value="${esc(r.name)}"${inv(id("name"))}>${errMsg(id("name"))}</div>
+      <div class="field"><label for="${id("phone")}">收件人電話 <span class="req">*</span></label>
+        <input type="tel" id="${id("phone")}" data-r="${i}" data-k="phone" value="${esc(r.phone)}"${inv(id("phone"))}>${errMsg(id("phone"))}</div>
+    </div>`}
+    <div class="row-addr">
+      <div class="field"><label for="${id("county")}">縣市 <span class="req">*</span></label>
+        <select id="${id("county")}" data-r="${i}" data-k="county"${inv(id("county"))}>
+          <option value="">請選擇</option>${COUNTIES.map(c=>`<option${c===r.county?" selected":""}>${c}</option>`).join("")}
+        </select>${errMsg(id("county"))}</div>
+      <div class="field"><label for="${id("addr")}">地址 <span class="req">*</span> <span class="hint">含鄉鎮區、路名、門牌</span></label>
+        <input type="text" id="${id("addr")}" data-r="${i}" data-k="addr" value="${esc(r.addr)}" autocomplete="street-address"${inv(id("addr"))}>${errMsg(id("addr"))}</div>
+    </div>
+    <div class="field"><span class="legend">品項與箱數 <span class="req">*</span></span>
+      <div class="items">${PRODUCTS.map(p=>{
+        const n = r.items[p.id];
+        return `<div class="item"><div><div class="nm">${p.label}</div><div class="pr">${money(p.price)} / 箱<span class="tag-demo">示意</span></div></div>
+          <div class="stepper" role="group" aria-label="${p.label} 箱數">
+            <button type="button" data-act="minus" data-i="${i}" data-p="${p.id}" ${n<=0?"disabled":""} aria-label="減少">−</button>
+            <output aria-live="polite">${n}</output>
+            <button type="button" data-act="plus" data-i="${i}" data-p="${p.id}" ${left<=0?"disabled":""} aria-label="增加">+</button>
+          </div><span></span></div>`;}).join("")}
+      </div>${errMsg(id("items"))}</div>
+    <div class="field"><label for="${id("when")}">方便收貨的時間 <span class="hint">寫在包裹備註，無法指定日期</span></label>
+      <select id="${id("when")}" data-r="${i}" data-k="when">${WHEN.map(w=>`<option${w===r.when?" selected":""}>${w}</option>`).join("")}</select></div>
+  </div>`;
+}
+
+function renderStep2(){
+  syncSelf();
+  const t = totals(), full = t.boxes >= CONFIG.MAX_BOXES;
+  return `<h1>收件與品項</h1>
+  <div class="panel">
+    <div class="modes" role="radiogroup" aria-label="收件方式">
+      <label class="mode"><input type="radio" name="mode" value="self" ${O.mode==="self"?"checked":""}><b>寄給訂購人</b><small>寄到自己家</small></label>
+      <label class="mode"><input type="radio" name="mode" value="multi" ${O.mode==="multi"?"checked":""}><b>不同地址（送禮用、合購）</b><small>可以分寄給不同收件人</small></label>
+    </div>
+    ${O.rcpts.map(renderRcpt).join("")}
+    ${O.mode==="multi" ? `<div><button class="btn ghost" type="button" data-act="add" ${full||O.rcpts.length>=CONFIG.MAX_BOXES?"disabled":""}>＋ 新增收件人</button></div>` : ""}
+    <div class="boxbar ${full?"full":""}"><span>已選 <b>${t.boxes}</b> / ${CONFIG.MAX_BOXES} 箱</span><span>${full ? "已達每筆預購上限" : `還可以再選 ${CONFIG.MAX_BOXES - t.boxes} 箱`}</span></div>
+    ${errMsg("total")}
+    ${renderSum(t)}
+  </div>
+  <div class="navrow"><button class="btn ghost" type="button" data-act="back">上一步</button><button class="btn" type="button" data-act="next">確認訂單</button></div>`;
+}
+
+function renderSum(t){
+  return `<div class="sum" aria-live="polite">
+    <div class="ln"><span>小計（${t.boxes} 箱）</span><span>${money(t.subtotal)}</span></div>
+    <div class="ln"><span>預購折扣（每箱折 $${CONFIG.DISCOUNT_PER_BOX}）</span><span>−${money(t.discount)}</span></div>
+    <div class="ln"><span>運費（郵局 ${t.packages} 件包裹）</span><span class="muted">計算方式確定後補上</span></div>
+    <div class="ln total"><span>預估金額</span><span>${money(t.pay)}</span></div>
+    <div class="muted">現在不用付款。出貨前一天會寄匯款通知。</div>
+  </div>`;
+}
+
+function renderStep3(){
+  syncSelf();
+  const t = totals(), b = O.buyer;
+  return `<h1>確認訂單</h1>
+  <p class="small">送出前請再看一次地址和電話，寄錯的芒果很難追回。</p>
+  <div class="panel review">
+    <div class="card"><h3>訂購人<button type="button" data-act="goto" data-s="1">修改</button></h3>
+      <dl class="kv"><dt>姓名</dt><dd>${esc(b.name)}</dd><dt>手機</dt><dd>${esc(b.phone)}</dd>
+      ${b.email?`<dt>Email</dt><dd>${esc(b.email)}</dd>`:""}${b.line?`<dt>LINE</dt><dd>${esc(b.line)}</dd>`:""}</dl></div>
+    ${O.rcpts.map((r,i)=>`<div class="card"><h3>${O.mode==="self"?"收件人（同訂購人）":"收件人 "+(i+1)}<button type="button" data-act="goto" data-s="2">修改</button></h3>
+      <dl class="kv"><dt>姓名</dt><dd>${esc(r.name)}</dd><dt>電話</dt><dd>${esc(r.phone)}</dd>
+      <dt>地址</dt><dd>${esc(r.county)}${esc(r.addr)}</dd><dt>品項</dt><dd>${itemLabel(r)}</dd><dt>收貨時間</dt><dd>${esc(r.when)}</dd></dl></div>`).join("")}
+    ${renderSum(t)}
+    <label class="check"><input type="checkbox" id="agree" ${O.agree?"checked":""}><span>我了解這是預購登記，出貨前會收到匯款通知；芒果屬生鮮，寄出後無法取消。</span></label>
+    ${errMsg("agree")}
+    <input type="text" class="hp" id="orderHp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    ${dupWarn ? `<div class="alert" role="alert"><b>這支手機已經有一筆預購</b><span>如果是要再訂一筆，請按「再送一筆」。如果是要修改原本的訂單，請直接 LINE 我們，不用重送。</span>
+      <div class="acts"><button class="btn sm" type="button" data-act="force">再送一筆</button><a class="btn sm ghost" href="#contact">用 LINE 修改</a></div></div>` : ""}
+    ${errMsg("submit")}
+  </div>
+  <div class="navrow"><button class="btn ghost" type="button" data-act="back">上一步</button>
+    <button class="btn" type="button" data-act="submit" ${busy?"disabled":""}>${busy?"送出中…":"送出預購"}</button></div>`;
+}
+
+function renderDone(){
+  const t = totals(), b = O.buyer;
+  return `<div class="done-box">
+    <span class="eyebrow"><span class="dot"></span>預購已登記</span>
+    <h1>謝謝您的預購</h1>
+    <div><div class="small">訂單編號</div><div class="orderno">${esc(result.orderId)}</div></div>
+    <p>${b.email ? `預購確認信已寄到 ${esc(b.email)}。` : "我們會透過 LINE 跟您確認。"}芒果準備寄出的前一天，會再通知您匯款。</p>
+    ${result.demo ? `<p class="small">示範模式：這筆資料沒有真的送出。</p>` : ""}
+    <div class="review">${O.rcpts.map(r=>`<div class="card"><dl class="kv"><dt>收件人</dt><dd>${esc(r.name)}</dd><dt>地址</dt><dd>${esc(r.county)}${esc(r.addr)}</dd><dt>品項</dt><dd>${itemLabel(r)}</dd></dl></div>`).join("")}</div>
+    ${renderSum(t)}
+    <div class="navrow"><a class="btn ghost" href="#top">回首頁</a><button class="btn" type="button" data-act="again">再訂一筆</button></div>
+  </div>`;
+}
+
+/* ===== 驗證 ===== */
+const digits = s => s.replace(/\D/g,"");
+const phoneOk = s => digits(s).length >= 9 && /^[0-9\-\s()#+轉分機]+$/.test(s.trim());
+function validate(s){
+  errors = {};
+  const b = O.buyer;
+  if (s===1){
+    if (!b.name.trim()) errors["b-name"] = "請填寫姓名";
+    if (!phoneOk(b.phone)) errors["b-phone"] = "請填寫可以聯絡到您的電話，例如 0912345678";
+    if (b.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email.trim())) errors["b-email"] = "Email 格式不對";
+    if (!b.email.trim() && !b.line.trim()) errors["b-email"] = "Email 和 LINE ID 至少填一個，才能通知您匯款";
+  }
+  if (s===2){
+    syncSelf();
+    O.rcpts.forEach((r,i)=>{
+      if (O.mode==="multi"){
+        if (!r.name.trim()) errors[`r${i}-name`] = "請填寫收件人姓名";
+        if (!phoneOk(r.phone)) errors[`r${i}-phone`] = "請填寫收件人電話";
+      }
+      if (!r.county) errors[`r${i}-county`] = "請選擇縣市";
+      if (r.addr.trim().length < 6) errors[`r${i}-addr`] = "請填完整地址，包含鄉鎮區與門牌";
+      if (boxesOf(r) === 0) errors[`r${i}-items`] = "這位收件人還沒選芒果";
+    });
+    if (totalBoxes() > CONFIG.MAX_BOXES) errors.total = `每筆預購最多 ${CONFIG.MAX_BOXES} 箱`;
+  }
+  if (s===3 && !O.agree) errors.agree = "請勾選確認後再送出";
+  return Object.keys(errors).length === 0;
+}
+function focusFirstError(){
+  const k = Object.keys(errors)[0]; if (!k) return;
+  const el = document.getElementById(k) || document.getElementById("e-"+k);
+  if (el) { el.scrollIntoView({block:"center"}); if (el.focus) el.focus({preventScroll:true}); }
+}
+
+/* ===== 事件 ===== */
+$("#orderRoot").addEventListener("input", e=>{
+  const el = e.target;
+  if (el.dataset.b) O.buyer[el.dataset.b] = el.value;
+  if (el.dataset.r) O.rcpts[+el.dataset.r][el.dataset.k] = el.value;
+  if (el.id === "agree") O.agree = el.checked;
+  if (el.id === "orderHp") O.hp = el.value;
+});
+$("#orderRoot").addEventListener("change", e=>{
+  const el = e.target;
+  if (el.name === "mode") {
+    O.mode = el.value;
+    if (O.mode === "self") { const items = emptyItems(); O.rcpts.forEach(r=>PRODUCTS.forEach(p=>items[p.id]+=r.items[p.id])); const r0 = O.rcpts[0]; r0.items = items; O.rcpts = [r0]; }
+    else { O.rcpts[0].name = ""; O.rcpts[0].phone = ""; }
+    errors = {}; renderOrder();
+  }
+  if (el.dataset.r) O.rcpts[+el.dataset.r][el.dataset.k] = el.value;
+});
+$("#orderRoot").addEventListener("click", async e=>{
+  const btn = e.target.closest("[data-act]"); if (!btn) return;
+  const act = btn.dataset.act, i = +btn.dataset.i;
+  if (act==="plus" && totalBoxes() < CONFIG.MAX_BOXES) { O.rcpts[i].items[btn.dataset.p]++; delete errors[`r${i}-items`]; rerenderKeep(btn); }
+  if (act==="minus" && O.rcpts[i].items[btn.dataset.p] > 0) { O.rcpts[i].items[btn.dataset.p]--; rerenderKeep(btn); }
+  if (act==="add") { O.rcpts.push(newRcpt()); renderOrder(); }
+  if (act==="del") { O.rcpts.splice(i,1); errors = {}; renderOrder(); }
+  if (act==="next") { if (validate(step)) { step++; errors = {}; renderOrder(); scrollTo(0,0); } else { renderOrder(); focusFirstError(); } }
+  if (act==="back") { step--; errors = {}; dupWarn = false; renderOrder(); scrollTo(0,0); }
+  if (act==="goto") { step = +btn.dataset.s; errors = {}; dupWarn = false; renderOrder(); scrollTo(0,0); }
+  if (act==="submit") submit(false);
+  if (act==="force") submit(true);
+  if (act==="again") { resetOrder(); renderOrder(); scrollTo(0,0); }
+});
+function rerenderKeep(btn){
+  const key = `${btn.dataset.act}|${btn.dataset.i}|${btn.dataset.p}`;
+  const y = window.scrollY;
+  renderOrder();
+  window.scrollTo(0,y);
+  const [a,i,p] = key.split("|");
+  let next = document.querySelector(`[data-act="${a}"][data-i="${i}"][data-p="${p}"]`);
+  if (next && next.disabled) next = document.querySelector(`[data-act="${a==="plus"?"minus":"plus"}"][data-i="${i}"][data-p="${p}"]`);
+  if (next) next.focus({preventScroll:true});
+}
+
+async function submit(force){
+  if (!validate(3)) { renderOrder(); focusFirstError(); return; }
+  if (O.hp) return;
+  busy = true; dupWarn = false; renderOrder();
+  syncSelf();
+  const payload = { action:"order", confirmDuplicate: force, buyer: O.buyer,
+    recipients: O.rcpts.map(r=>({ name:r.name, phone:r.phone, county:r.county, addr:r.addr, when:r.when, items:r.items })) };
+  const res = await api(payload);
+  busy = false;
+  if (res.ok) { result = res; renderOrder(); scrollTo(0,0); }
+  else if (res.status === "duplicate") { dupWarn = true; renderOrder(); }
+  else { errors = { submit: res.message || "送出沒有成功，請稍後再試，或直接 LINE 我們。" }; renderOrder(); }
+}
+
+/* ===== 路由 ===== */
+function route(){
+  const h = location.hash.slice(1);
+  const isOrder = h === "order";
+  $("#home").hidden = isOrder;
+  $("#order").hidden = !isOrder;
+  if (isOrder) { renderOrder(); scrollTo(0,0); }
+  else if (h) { const t = document.getElementById(h); if (t) requestAnimationFrame(()=>t.scrollIntoView()); }
+}
+window.addEventListener("hashchange", route);
+
+document.querySelectorAll("#demoBar button").forEach(b=>b.addEventListener("click",()=>{ season = b.dataset.state; renderHero(); if (location.hash==="#order") renderOrder(); }));
+if (!CONFIG.SHOW_DEMO_BAR) $("#demoBar").hidden = true;
+
+$("#copyLine").addEventListener("click", async ()=>{
+  const t = $("#lineId").textContent, b = $("#copyLine");
+  try { await navigator.clipboard.writeText(t); b.textContent = "已複製"; }
+  catch { const r = document.createRange(); r.selectNodeContents($("#lineId")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "已選取"; }
+  setTimeout(()=>b.textContent="複製",1500);
+});
+
+renderHero();
+route();
+loadSeason();
+</script>
