@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>文章｜芒果之神</title>
+<meta name="description" content="關於芒果的歷史、處理技術和外銷，查證過才寫。">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="assets/mango.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="demo" id="demoBar" hidden>
+  <div class="wrap"><span>示範用｜網站狀態：</span>
+    <button type="button" data-state="offseason">非產季</button><button type="button" data-state="preorder">預購中</button><button type="button" data-state="shipping">出貨中</button><button type="button" data-state="full">額滿</button>
+  </div>
+</div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/mango.webp" alt="" width="30" height="30"><b>芒果之神</b></a>
+    <nav class="nav" aria-label="主選單">
+      <a href="mango.html">芒果</a>
+      <a href="guide.html">購物須知</a>
+      <a href="about.html">關於我們</a>
+      <a href="articles.html" aria-current="page">文章</a>
+    </nav>
+    <a class="btn head-cta" href="order.html" data-open="yes">我要預購</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-label="開啟選單">選單</button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap narrow page-head">
+    <h1>文章</h1>
+    <p>關於芒果的事，查證過才寫。數字以農業部等官方資料為準，傳說會標明是傳說。</p>
+  </div>
+
+  <section class="sec" style="border-top:0;padding-top:0">
+    <div class="wrap narrow">
+      <ul class="posts">
+        <li>
+          <div class="meta"><b>印度</b>歷史</div>
+          <div>
+            <h3>芒果的原鄉</h3>
+            <p>從化石、名稱一路的演變、佛陀的芒果園，到阿克巴皇帝那座十萬棵樹的果園，再到今天印度的產量。</p>
+            <span class="pill">撰寫中</span>
+          </div>
+        </li>
+        <li>
+          <div class="meta"><b>46.5°C</b>處理技術</div>
+          <div>
+            <h3>外銷芒果要先蒸過</h3>
+            <p>果心 46.5°C、維持 30 分鐘，純物理處理。這個溫度殺得死東方果實蠅的蟲卵，又不傷果肉。1988 年獲日本認證，隔年開始外銷日本。</p>
+            <span class="pill">即將刊出</span>
+          </div>
+        </li>
+        <li>
+          <div class="meta"><b>4 公噸</b>外銷</div>
+          <div>
+            <h3>愛文第一次上架法國</h3>
+            <p>2026 年 6 月，第一批台灣愛文空運落地巴黎近郊的 Rungis 市場。為什麼一顆能賣到 7～20 歐元。</p>
+            <span class="pill">即將刊出</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="about">
+      <h2>芒果之神</h2>
+      <p class="muted">台南市楠西區的家庭果園。網路訂單從接單到寄出都由自家處理，中華郵政寄送。</p>
+      <div class="line-id"><span class="muted small">LINE</span><code data-line-id></code><button type="button" data-copy-line>複製</button></div>
+    </div>
+    <div>
+      <h3>網站</h3>
+      <ul><li><a href="index.html">首頁</a></li><li><a href="mango.html">芒果</a></li><li><a href="articles.html">文章</a></li><li><a href="about.html">關於我們</a></li></ul>
+    </div>
+    <div>
+      <h3>購買</h3>
+      <ul><li><a href="order.html">預購登記</a></li><li><a href="guide.html#pay">付款方式</a></li><li><a href="guide.html#ship">運費與寄送</a></li><li><a href="guide.html#privacy">個人資料</a></li></ul>
+    </div>
+    <p class="small muted" style="grid-column:1/-1">© <span data-year></span> 芒果之神</p>
+  </div>
+</footer>
+<div class="buybar" aria-label="預購">
+  <div class="state"><b data-season="short"></b><span class="muted" data-season="bar"></span></div>
+  <a class="btn" href="order.html" data-open="yes">我要預購</a>
+  <a class="btn line" href="index.html#notify" data-open="no">開賣通知</a>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>

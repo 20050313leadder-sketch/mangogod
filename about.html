@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>關於我們｜芒果之神</title>
+<meta name="description" content="芒果之神是台南楠西的家庭果園，種愛文、金煌、西施。網路訂單由自家處理。">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="assets/mango.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="demo" id="demoBar" hidden>
+  <div class="wrap"><span>示範用｜網站狀態：</span>
+    <button type="button" data-state="offseason">非產季</button><button type="button" data-state="preorder">預購中</button><button type="button" data-state="shipping">出貨中</button><button type="button" data-state="full">額滿</button>
+  </div>
+</div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/mango.webp" alt="" width="30" height="30"><b>芒果之神</b></a>
+    <nav class="nav" aria-label="主選單">
+      <a href="mango.html">芒果</a>
+      <a href="guide.html">購物須知</a>
+      <a href="about.html" aria-current="page">關於我們</a>
+      <a href="articles.html">文章</a>
+    </nav>
+    <a class="btn head-cta" href="order.html" data-open="yes">我要預購</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-label="開啟選單">選單</button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap page-head">
+    <h1>玉井人的芒果，<br>種在楠西</h1>
+  </div>
+
+  <section class="sec" style="border-top:0;padding-top:0">
+    <div class="wrap split">
+      <div class="prose">
+        <p>我家在玉井，果園在隔壁的楠西。兩地同屬白堊土地區。</p>
+        <p>所以我們寫「玉井人的芒果」，產地標楠西，不寫成玉井芒果。</p>
+        <p>家裡種芒果很多年了，以前多半交給盤商。現在網路訂單由我自己處理：回訊息、整理訂單、通知匯款、安排寄出。</p>
+        <p>網站上的文章也是我寫的。寫之前會查證，查不到可靠來源的，就標明是傳說或不寫。</p>
+      </div>
+      <dl class="facts">
+        <div><dt>產地</dt><dd>台南市楠西區</dd></div>
+        <div><dt>土壤</dt><dd>白堊土地區</dd></div>
+        <div><dt>品種</dt><dd>愛文、金煌、西施</dd></div>
+        <div><dt>寄送</dt><dd>中華郵政</dd></div>
+        <div><dt>付款</dt><dd>寄出前一天通知匯款</dd></div>
+        <div><dt>聯絡</dt><dd>LINE <span data-line-id></span></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap"><div class="prose">
+      <h2 style="font-size:clamp(26px,4.6vw,34px)">為什麼不先收錢</h2>
+      <p>芒果一年只收一次，量多少要看那一季的天氣。</p>
+      <p>先收錢，遇到收成不好就得一筆一筆退款。所以我們先登記，等量確定、真的要寄了，前一天才請您匯款。</p>
+      <p>也因為芒果放不久，被退件就會壞在路上，所以不做貨到付款。</p>
+    </div></div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="about">
+      <h2>芒果之神</h2>
+      <p class="muted">台南市楠西區的家庭果園。網路訂單從接單到寄出都由自家處理，中華郵政寄送。</p>
+      <div class="line-id"><span class="muted small">LINE</span><code data-line-id></code><button type="button" data-copy-line>複製</button></div>
+    </div>
+    <div>
+      <h3>網站</h3>
+      <ul><li><a href="index.html">首頁</a></li><li><a href="mango.html">芒果</a></li><li><a href="articles.html">文章</a></li><li><a href="about.html">關於我們</a></li></ul>
+    </div>
+    <div>
+      <h3>購買</h3>
+      <ul><li><a href="order.html">預購登記</a></li><li><a href="guide.html#pay">付款方式</a></li><li><a href="guide.html#ship">運費與寄送</a></li><li><a href="guide.html#privacy">個人資料</a></li></ul>
+    </div>
+    <p class="small muted" style="grid-column:1/-1">© <span data-year></span> 芒果之神</p>
+  </div>
+</footer>
+<div class="buybar" aria-label="預購">
+  <div class="state"><b data-season="short"></b><span class="muted" data-season="bar"></span></div>
+  <a class="btn" href="order.html" data-open="yes">我要預購</a>
+  <a class="btn line" href="index.html#notify" data-open="no">開賣通知</a>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>
